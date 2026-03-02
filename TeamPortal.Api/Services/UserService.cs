@@ -4,6 +4,7 @@ using TeamPortal.Data;
 using TeamPortal.Data.Entities;
 
 using BRc = BCrypt.Net;
+using Microsoft.EntityFrameworkCore;
 
 namespace TeamPortal.Api.Services
 {
@@ -70,6 +71,24 @@ namespace TeamPortal.Api.Services
                 IsActive = user.IsActive,
                 CreatedOnUtc = user.CreatedOnUtc
             };
+        }
+
+        public async Task<List<UserResponseDto>> GetUsersAsync() 
+        {
+            return await _context.Users
+                .Select(user => new UserResponseDto
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    MiddleName = user.MiddleName,
+                    FamilyName = user.FamilyName,
+                    Email = user.Email,
+                    Role = user.Role,
+                    IsActive = user.IsActive,
+                    CreatedOnUtc = user.CreatedOnUtc
+                })
+                .ToListAsync();
+
         }
 
     }

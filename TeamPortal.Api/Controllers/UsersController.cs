@@ -33,4 +33,11 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetUsers() 
+    {
+        var result = await _userService.GetUsersAsync();
+        return Ok(result);
+    }
+
 }
