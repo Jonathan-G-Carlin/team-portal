@@ -21,4 +21,16 @@ public class UserController : ControllerBase
         var result = await _userService.CreateUserAsync(userDto);
         return CreatedAtAction(nameof(CreateUser), new { id = result.Id }, result);
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetUser(int id)
+    {
+        var result = await _userService.GetUserByIdAsync(id);
+
+        if (result is null)
+            return NotFound();
+
+        return Ok(result);
+    }
+
 }

@@ -13,7 +13,8 @@ namespace TeamPortal.Api.Services
 
         public UserService(AppDbContext context)
         {
-            _context = context;
+            _context = context; 
+            // Table: Users
         }
 
         public async Task<UserResponseDto> CreateUserAsync(CreateUserDto userDto)
@@ -37,6 +38,26 @@ namespace TeamPortal.Api.Services
 
             //  Personal Note Cont': EF executes INSERT... and then, reads its back in a select statement
             // "EF immediately queries back the generated Id and any DB-defaulted columns (CreatedOnUtc) so the entity in memory stays in sync with what's in the database."
+
+            return new UserResponseDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                MiddleName = user.MiddleName,
+                FamilyName = user.FamilyName,
+                Email = user.Email,
+                Role = user.Role,
+                IsActive = user.IsActive,
+                CreatedOnUtc = user.CreatedOnUtc
+            };
+        }
+
+        public async Task<UserResponseDto?> GetUserByIdAsync(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            if (user is null)
+                return null;
 
             return new UserResponseDto
             {
