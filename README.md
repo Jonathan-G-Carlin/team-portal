@@ -1,2 +1,2 @@
-# team-portal-api
-Core backend API for TeamPortal built with ASP.NET Core and Entity Framework Core. Handles authentication, users, and database management with SQL Server.
+# team-portal
+Full-stack interview-prep project using ASP.NET Core, Entity Framework Core, SQL Server, and Angular. Focused on understanding the full API → database workflow, migrations, and real-world architecture.
