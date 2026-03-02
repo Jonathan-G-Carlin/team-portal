@@ -52,7 +52,7 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("{id}")]
+    [HttpPost("{id}/change-password")]
     public async Task<IActionResult> UpdatePasswordAsync(int id, UpdatePasswordDto updateDto)
     {
         var result = await _userService.UpdatePasswordAsync(id, updateDto);
