@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using TeamPortal.Api.Dtos;
 using TeamPortal.Api.Services;
+using TeamPortal.Application.Dtos;
 
 namespace TeamPortal.Api.Controller;
 
@@ -38,6 +39,17 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetUsers() 
     {
         var result = await _userService.GetUsersAsync();
+        return Ok(result);
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> LoginUserAsync([FromBody]LoginDto loginDto)
+    {
+        var result = await _userService.LoginUserAsync(loginDto);
+
+        if (result is null)
+            return Unauthorized();
+
         return Ok(result);
     }
 

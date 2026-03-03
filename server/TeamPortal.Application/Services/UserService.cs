@@ -5,6 +5,7 @@ using TeamPortal.Data.Entities;
 
 using BRc = BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
+using TeamPortal.Application.Dtos;
 
 namespace TeamPortal.Api.Services
 {
@@ -89,6 +90,32 @@ namespace TeamPortal.Api.Services
                 })
                 .ToListAsync();
 
+        }
+
+        public async Task<UserResponseDto?> LoginUserAsync(LoginDto loginDto)
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(user => user.Email == loginDto.Email);
+
+            if (user is null)
+                return null;
+
+            bool isPasswordMatch = BRc.BCrypt.Verify(loginDto.Password, user.PasswordHash);
+
+            if (!isPasswordMatch)
+                return null;
+
+            return new UserResponseDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                MiddleName = user.MiddleName,
+                FamilyName = user.FamilyName,
+                Email = user.Email,
+                Role = user.Role,
+                IsActive = user.IsActive,
+                CreatedOnUtc = user.CreatedOnUtc
+            };
         }
 
         public async Task<UserResponseDto?> UpdateUserAsync(int Id, UpdateUserDto updateDto)
